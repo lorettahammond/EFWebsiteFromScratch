@@ -1,0 +1,612 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LLHManufacturingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="clientID" />
+          </Key>
+          <Property Name="clientID" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="clientName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="clientAddress" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="zipID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="orderID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="salesPersonID" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="orderID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="partID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="statusID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="quantity" Type="float" Nullable="false" />
+          <Property Name="clientID" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderStatus">
+          <Key>
+            <PropertyRef Name="statusID" />
+          </Key>
+          <Property Name="statusID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="statusName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PartLocation">
+          <Key>
+            <PropertyRef Name="locationsID" />
+          </Key>
+          <Property Name="locationsID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="locationName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PartNumber">
+          <Key>
+            <PropertyRef Name="partID" />
+          </Key>
+          <Property Name="partID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="partName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="locationID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="supplierID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="materialID" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PartsMaterial">
+          <Key>
+            <PropertyRef Name="materialID" />
+          </Key>
+          <Property Name="materialID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="materialName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesPerson">
+          <Key>
+            <PropertyRef Name="salesPersonId" />
+          </Key>
+          <Property Name="salesPersonId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="salesPersonName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="supplierID" />
+          </Key>
+          <Property Name="supplierID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="supplierName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Zipcode">
+          <Key>
+            <PropertyRef Name="zipID" />
+          </Key>
+          <Property Name="zipID" Type="float" Nullable="false" />
+          <Property Name="state" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="city" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Client_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Client1" Type="Self.Client" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="clientID" />
+            </Principal>
+            <Dependent Role="Client1">
+              <PropertyRef Name="clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="LLHManufacturingModelStoreContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PartLocation" EntityType="Self.PartLocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PartNumber" EntityType="Self.PartNumber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PartsMaterial" EntityType="Self.PartsMaterial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesPerson" EntityType="Self.SalesPerson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zipcode" EntityType="Self.Zipcode" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Client_Client" Association="Self.FK_Client_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Client1" EntitySet="Client" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LLHManufacturingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="clientID" />
+          </Key>
+          <Property Name="clientID" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="clientName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="clientAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="zipID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="orderID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="salesPersonID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Client1" Relationship="Self.FK_Client_Client" FromRole="Client" ToRole="Client1" />
+          <NavigationProperty Name="Client2" Relationship="Self.FK_Client_Client" FromRole="Client1" ToRole="Client" />
+          <NavigationProperty Name="SalesPerson" Relationship="LLHManufacturingModel.SalesPersonClient" FromRole="Client" ToRole="SalesPerson" />
+          <Property Name="SalesPerson_salesPersonId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="NavigationProperty1" />
+          <NavigationProperty Name="Orders" Relationship="LLHManufacturingModel.ClientOrder" FromRole="Client" ToRole="Order" />
+          <NavigationProperty Name="Zipcodes" Relationship="LLHManufacturingModel.ClientZipcode" FromRole="Client" ToRole="Zipcode" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="orderID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="partID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="statusID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="quantity" Type="Double" Nullable="false" />
+          <Property Name="clientID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="OrderStatus" Relationship="LLHManufacturingModel.OrderOrderStatu" FromRole="Order" ToRole="OrderStatu" />
+          <NavigationProperty Name="Client" Relationship="LLHManufacturingModel.ClientOrder" FromRole="Order" ToRole="Client" />
+          <Property Name="Client_clientID" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PartNumbers" Relationship="LLHManufacturingModel.OrderPartNumber" FromRole="Order" ToRole="PartNumber" />
+        </EntityType>
+        <EntityType Name="OrderStatu">
+          <Key>
+            <PropertyRef Name="statusID" />
+          </Key>
+          <Property Name="statusID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="statusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="LLHManufacturingModel.OrderOrderStatu" FromRole="OrderStatu" ToRole="Order" />
+          <Property Name="Order_orderID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PartLocation">
+          <Key>
+            <PropertyRef Name="locationsID" />
+          </Key>
+          <Property Name="locationsID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="locationName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PartNumber" Relationship="LLHManufacturingModel.PartNumberPartLocation" FromRole="PartLocation" ToRole="PartNumber" />
+          <Property Name="PartNumber_partID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PartNumber">
+          <Key>
+            <PropertyRef Name="partID" />
+          </Key>
+          <Property Name="partID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="partName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="locationID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="supplierID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="materialID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PartLocations" Relationship="LLHManufacturingModel.PartNumberPartLocation" FromRole="PartNumber" ToRole="PartLocation" />
+          <NavigationProperty Name="PartsMaterials" Relationship="LLHManufacturingModel.PartNumberPartsMaterial" FromRole="PartNumber" ToRole="PartsMaterial" />
+          <NavigationProperty Name="Suppliers" Relationship="LLHManufacturingModel.PartNumberSupplier" FromRole="PartNumber" ToRole="Supplier" />
+          <NavigationProperty Name="Order" Relationship="LLHManufacturingModel.OrderPartNumber" FromRole="PartNumber" ToRole="Order" />
+          <Property Name="Order_orderID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PartsMaterial">
+          <Key>
+            <PropertyRef Name="materialID" />
+          </Key>
+          <Property Name="materialID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="materialName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PartNumber" Relationship="LLHManufacturingModel.PartNumberPartsMaterial" FromRole="PartsMaterial" ToRole="PartNumber" />
+          <Property Name="PartNumber_partID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SalesPerson">
+          <Key>
+            <PropertyRef Name="salesPersonId" />
+          </Key>
+          <Property Name="salesPersonId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="salesPersonName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Clients" Relationship="LLHManufacturingModel.SalesPersonClient" FromRole="SalesPerson" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="supplierID" />
+          </Key>
+          <Property Name="supplierID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="supplierName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PartNumber" Relationship="LLHManufacturingModel.PartNumberSupplier" FromRole="Supplier" ToRole="PartNumber" />
+          <Property Name="PartNumber_partID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Zipcode">
+          <Key>
+            <PropertyRef Name="zipID" />
+          </Key>
+          <Property Name="zipID" Type="Double" Nullable="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="clientID_clientID1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Client" Relationship="LLHManufacturingModel.ClientZipcode" FromRole="Zipcode" ToRole="Client" />
+          <Property Name="Client_clientID" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Client_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Client1" Type="Self.Client" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="clientID" />
+            </Principal>
+            <Dependent Role="Client1">
+              <PropertyRef Name="clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LLHManufacturingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="OrderStatus" EntityType="Self.OrderStatu" />
+          <EntitySet Name="PartLocations" EntityType="Self.PartLocation" />
+          <EntitySet Name="PartNumbers" EntityType="Self.PartNumber" />
+          <EntitySet Name="PartsMaterials" EntityType="Self.PartsMaterial" />
+          <EntitySet Name="SalesPersons" EntityType="Self.SalesPerson" />
+          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Zipcodes" EntityType="Self.Zipcode" />
+          <AssociationSet Name="FK_Client_Client" Association="Self.FK_Client_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Client1" EntitySet="Clients" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(LLHManufacturingModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(LLHManufacturingModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <AssociationSet Name="OrderOrderStatu" Association="LLHManufacturingModel.OrderOrderStatu">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderStatu" EntitySet="OrderStatus" />
+          </AssociationSet>
+          <AssociationSet Name="SalesPersonClient" Association="LLHManufacturingModel.SalesPersonClient">
+            <End Role="SalesPerson" EntitySet="SalesPersons" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="PartNumberPartLocation" Association="LLHManufacturingModel.PartNumberPartLocation">
+            <End Role="PartNumber" EntitySet="PartNumbers" />
+            <End Role="PartLocation" EntitySet="PartLocations" />
+          </AssociationSet>
+          <AssociationSet Name="PartNumberPartsMaterial" Association="LLHManufacturingModel.PartNumberPartsMaterial">
+            <End Role="PartNumber" EntitySet="PartNumbers" />
+            <End Role="PartsMaterial" EntitySet="PartsMaterials" />
+          </AssociationSet>
+          <AssociationSet Name="PartNumberSupplier" Association="LLHManufacturingModel.PartNumberSupplier">
+            <End Role="PartNumber" EntitySet="PartNumbers" />
+            <End Role="Supplier" EntitySet="Suppliers" />
+          </AssociationSet>
+          <AssociationSet Name="ClientOrder" Association="LLHManufacturingModel.ClientOrder">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="ClientZipcode" Association="LLHManufacturingModel.ClientZipcode">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Zipcode" EntitySet="Zipcodes" />
+          </AssociationSet>
+          <AssociationSet Name="OrderPartNumber" Association="LLHManufacturingModel.OrderPartNumber">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="PartNumber" EntitySet="PartNumbers" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <Association Name="OrderOrderStatu">
+          <End Type="LLHManufacturingModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="LLHManufacturingModel.OrderStatu" Role="OrderStatu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="orderID" />
+            </Principal>
+            <Dependent Role="OrderStatu">
+              <PropertyRef Name="Order_orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SalesPersonClient">
+          <End Type="LLHManufacturingModel.SalesPerson" Role="SalesPerson" Multiplicity="1" />
+          <End Type="LLHManufacturingModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesPerson">
+              <PropertyRef Name="salesPersonId" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="SalesPerson_salesPersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PartNumberPartLocation">
+          <End Type="LLHManufacturingModel.PartNumber" Role="PartNumber" Multiplicity="1" />
+          <End Type="LLHManufacturingModel.PartLocation" Role="PartLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PartNumber">
+              <PropertyRef Name="partID" />
+            </Principal>
+            <Dependent Role="PartLocation">
+              <PropertyRef Name="PartNumber_partID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PartNumberPartsMaterial">
+          <End Type="LLHManufacturingModel.PartNumber" Role="PartNumber" Multiplicity="1" />
+          <End Type="LLHManufacturingModel.PartsMaterial" Role="PartsMaterial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PartNumber">
+              <PropertyRef Name="partID" />
+            </Principal>
+            <Dependent Role="PartsMaterial">
+              <PropertyRef Name="PartNumber_partID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PartNumberSupplier">
+          <End Type="LLHManufacturingModel.PartNumber" Role="PartNumber" Multiplicity="1" />
+          <End Type="LLHManufacturingModel.Supplier" Role="Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PartNumber">
+              <PropertyRef Name="partID" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="PartNumber_partID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ClientOrder">
+          <End Type="LLHManufacturingModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="LLHManufacturingModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="clientID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Client_clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ClientZipcode">
+          <End Type="LLHManufacturingModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="LLHManufacturingModel.Zipcode" Role="Zipcode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="clientID" />
+            </Principal>
+            <Dependent Role="Zipcode">
+              <PropertyRef Name="Client_clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrderPartNumber">
+          <End Type="LLHManufacturingModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="LLHManufacturingModel.PartNumber" Role="PartNumber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="orderID" />
+            </Principal>
+            <Dependent Role="PartNumber">
+              <PropertyRef Name="Order_orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LLHManufacturingModelStoreContainer" CdmEntityContainer="LLHManufacturingEntities">
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="clientID" ColumnName="clientID" />
+                <ScalarProperty Name="clientName" ColumnName="clientName" />
+                <ScalarProperty Name="clientAddress" ColumnName="clientAddress" />
+                <ScalarProperty Name="zipID" ColumnName="zipID" />
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+                <ScalarProperty Name="salesPersonID" ColumnName="salesPersonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+                <ScalarProperty Name="partID" ColumnName="partID" />
+                <ScalarProperty Name="statusID" ColumnName="statusID" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="clientID" ColumnName="clientID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderStatus">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.OrderStatu">
+              <MappingFragment StoreEntitySet="OrderStatus">
+                <ScalarProperty Name="statusID" ColumnName="statusID" />
+                <ScalarProperty Name="statusName" ColumnName="statusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PartLocations">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.PartLocation">
+              <MappingFragment StoreEntitySet="PartLocation">
+                <ScalarProperty Name="locationsID" ColumnName="locationsID" />
+                <ScalarProperty Name="locationName" ColumnName="locationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PartNumbers">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.PartNumber">
+              <MappingFragment StoreEntitySet="PartNumber">
+                <ScalarProperty Name="partID" ColumnName="partID" />
+                <ScalarProperty Name="partName" ColumnName="partName" />
+                <ScalarProperty Name="locationID" ColumnName="locationID" />
+                <ScalarProperty Name="supplierID" ColumnName="supplierID" />
+                <ScalarProperty Name="materialID" ColumnName="materialID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PartsMaterials">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.PartsMaterial">
+              <MappingFragment StoreEntitySet="PartsMaterial">
+                <ScalarProperty Name="materialID" ColumnName="materialID" />
+                <ScalarProperty Name="materialName" ColumnName="materialName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesPersons">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.SalesPerson">
+              <MappingFragment StoreEntitySet="SalesPerson">
+                <ScalarProperty Name="salesPersonId" ColumnName="salesPersonId" />
+                <ScalarProperty Name="salesPersonName" ColumnName="salesPersonName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="supplierID" ColumnName="supplierID" />
+                <ScalarProperty Name="supplierName" ColumnName="supplierName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zipcodes">
+            <EntityTypeMapping TypeName="LLHManufacturingModel.Zipcode">
+              <MappingFragment StoreEntitySet="Zipcode">
+                <ScalarProperty Name="zipID" ColumnName="zipID" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="city" ColumnName="city" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="LLHManufacturingModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="LLHManufacturingModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="LLHManufacturingModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="LLHManufacturingModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LLHManufacturingModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="LLHManufacturingModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LLHManufacturingModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="LLHManufacturingModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="LLHManufacturingModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
